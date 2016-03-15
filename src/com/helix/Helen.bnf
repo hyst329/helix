@@ -1,0 +1,43 @@
+{
+  parserClass="com.helix.parser.HelenParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Helen"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.helix.psi"
+  psiImplPackage="com.helix.psi.impl"
+
+  elementTypeHolderClass="com.helix.psi.HelenTypes"
+  elementTypeClass="com.helix.psi.HelenElementType"
+  tokenTypeClass="com.helix.psi.HelenTokenType"
+
+  psiImplUtilClass="com.helix.psi.impl.HelenPsiImplUtil"
+}
+
+helenFile ::= instruction+
+instruction ::= (stmt? NEWLINE | ifinstr_ | loopinstr_ | funinstr_ | declinstr_ | typeinstr_ |
+                 retinstr_ | rszinstr_ | oprtinstr_ | delinstr_ | MAINMODULE | COMMENT | INCLUDE STRLIT)
+private ifinstr_ ::= IF expr NEWLINE instruction+ (ELSE instruction+)? ENDIF
+private loopinstr_ ::= LOOP (stmt COMMA expr COMMA stmt | stmt) NEWLINE instruction+ ENDLOOP
+private funinstr_ ::= FUN funprot NEWLINE instruction+ ENDFUN
+private declinstr_ ::= DECLARE funprot
+private typeinstr_ ::= (TYPEKW ALIAS ID OPERATOR type | TYPEKW INTERFACE? ID (COLON ID)? NEWLINE property+ ENDTYPE)
+private retinstr_ ::= RETURN expr
+private rszinstr_ ::= RESIZE ID LPAREN expr RPAREN
+private oprtinstr_ ::= OPERATORKW OPERATOR USE REALLIT
+private delinstr_ ::= DELETE ID
+property ::= (type ID | DECLARE funprot) NEWLINE
+stmt ::= (decl | (IN | OUT)? expr)
+decl ::= type ID (OPERATOR expr)?
+funprot ::= ((ID LPAREN arglist RPAREN ((STYLE | METHOD) LPAREN ID RPAREN)? (RARROW type)?) |
+             (OPERATORKW OPERATOR LPAREN arglist RPAREN RARROW type) |
+             (CONSTRUCTOR ID LPAREN arglist RPAREN) |
+             (DESTRUCTOR ID LPAREN arglist RPAREN))
+arglist ::= (type ID COMMA)* type ID
+type ::= (INT (LPAREN INTLIT RPAREN)? | REAL | LOGICAL | CHAR | ID | ARRAY LPAREN INTLIT RPAREN type | PTR type)
+exprlist ::= (expr COMMA)* expr
+expr ::= ((term)? OPERATOR expr | term (SHIFTBY term)?)
+term ::= (literal | LPAREN expr RPAREN | ID LPAREN exprlist RPAREN | ID (POINT term)? | SIZE ID |
+          NEW type (LPAREN exprlist RPAREN)? | CAST expr TO type)
+literal ::= (INTLIT (COLON INTLIT)? | REALLIT | CHARLIT | STRLIT)

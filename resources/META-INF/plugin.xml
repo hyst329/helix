@@ -1,0 +1,37 @@
+<idea-plugin version="2">
+  <id>com.helix.plugin</id>
+  <name>Helix - Helen-IDEA extension</name>
+  <version>1.0</version>
+  <vendor email="trolleybus.1329@gmail.com" url="http://www.github.com/hyst329">hyst329</vendor>
+
+  <description><![CDATA[
+      Extension for Helen language and Helmake support.<br>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      1.0 - First public version<br>
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="141.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+    <fileTypeFactory implementation="com.helix.HelenFileTypeFactory"/>
+    <lang.parserDefinition language="Helen" implementationClass="com.helix.HelenParserDefinition"/>
+    <lang.syntaxHighlighterFactory key="Helen" implementationClass="com.helix.HelenSyntaxHighlighterFactory"/>
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+
+</idea-plugin>
