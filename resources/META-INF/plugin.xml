@@ -27,6 +27,7 @@
     <fileTypeFactory implementation="com.helix.HelenFileTypeFactory"/>
     <lang.parserDefinition language="Helen" implementationClass="com.helix.HelenParserDefinition"/>
     <lang.syntaxHighlighterFactory key="Helen" implementationClass="com.helix.HelenSyntaxHighlighterFactory"/>
+    <lang.commenter language="Helen" implementationClass="com.helix.HelenCommenter"/>
   </extensions>
 
   <actions>
